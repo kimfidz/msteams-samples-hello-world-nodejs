@@ -1,34 +1,55 @@
 {
-  "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.2",
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.0",
   "version": "1.0.0",
   "id": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
   "packageName": "au.com.nukon.tillitbot",
   "developer": {
     "name": "Nukon",
-    "websiteUrl": "http://www.nukon.com.au/",
-    "privacyUrl": "https://www.nukon.com.au/",
-    "termsOfUseUrl": "https://www.nukon.com.au/"
+    "websiteUrl": "http://www.nukon.com.au",
+    "privacyUrl": "http://www.nukon.com.au/privacy",
+    "termsOfUseUrl": "http://www.nukon.com.au/termsofuse"
   },
   "name": {
     "short": "TilliT Bot",
-    "full": "TilliT Bot"
+    "full": "TilliT Bot for Microsoft Teams"
   },
   "description": {
     "short": "TilliT Bot for Microsoft Teams",
-    "full": "TilliT Bot extends TilliT functionality into Microsoft Teams"
+    "full": "Extends TilliT into Microsoft Teams"
   },
   "icons": {
-    "color": "color.png",
-    "outline": "outline.png"
+    "outline": "outline.png",
+    "color": "color.png"
   },
   "accentColor": "#FFFFFF",
+  "staticTabs": [
+    {
+      "entityId": "au.com.nukon.tillitbot.hellotab",
+      "name": "Hello Tab",
+      "contentUrl": "https://fidz.azurewebsites.net/hello",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://fidz.azurewebsites.net/configure",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
   "bots": [
     {
       "botId": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
+      "needsChannelSelector": false,
+      "isNotificationOnly": false,
       "scopes": [
-        "personal",
-        "team"
+        "team",
+        "personal"
       ]
     }
   ],
@@ -56,9 +77,6 @@
       ]
     }
   ],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
-  ],
+  "permissions": [],
   "validDomains": []
 }
