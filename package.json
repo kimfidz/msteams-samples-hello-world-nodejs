@@ -17,16 +17,17 @@
   },
   "homepage": "https://github.com/charlesprakash/msteams-nodejs-hello-world#readme",
   "dependencies": {
-    "botbuilder": "^3.11.0",
-    "botbuilder-teams": "^0.1.6",
-    "config": "^1.28.1",
-    "express": "^4.16.2",
+    "botbuilder": "^3.15.0",
+    "botbuilder-teams": "^0.1.7",
+    "config": "^1.30.0",
+    "express": "^4.16.3",
     "faker": "^4.1.0",
-    "pug": "^2.0.0-rc.4"
+    "huh": "^2.0.1",
+    "pug": "^2.0.3"
   },
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-zip": "^4.0.0"
+    "gulp-zip": "^4.1.0"
   }
 }
