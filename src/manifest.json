@@ -1,40 +1,64 @@
 {
-    "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
-    "manifestVersion": "1.2",
-    "version": "1.0.0",
-    "id": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
-    "packageName": "au.com.nukon.tillitbot",
-    "developer": {
-        "name": "Nukon",
-        "websiteUrl": "http://www.nukon.com.au/",
-        "privacyUrl": "https://www.nukon.com.au/",
-        "termsOfUseUrl": "https://www.nukon.com.au/"
-    },
-    "icons": {
-        "color": "color.png",
-        "outline": "outline.png"
-    },
-    "name": {
-        "short": "TilliT Bot",
-        "full": "TilliT Bot"
-    },
-    "description": {
-        "short": "TilliT Bot for Microsoft Teams",
-        "full": "TilliT Bot extends TilliT functionality into Microsoft Teams"
-    },
-    "accentColor": "#FFFFFF",
-    "bots": [
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.2",
+  "version": "1.0.0",
+  "id": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
+  "packageName": "au.com.nukon.tillitbot",
+  "developer": {
+    "name": "Nukon",
+    "websiteUrl": "http://www.nukon.com.au/",
+    "privacyUrl": "https://www.nukon.com.au/",
+    "termsOfUseUrl": "https://www.nukon.com.au/"
+  },
+  "name": {
+    "short": "TilliT Bot",
+    "full": "TilliT Bot"
+  },
+  "description": {
+    "short": "TilliT Bot for Microsoft Teams",
+    "full": "TilliT Bot extends TilliT functionality into Microsoft Teams"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
+      "scopes": [
+        "personal",
+        "team"
+      ]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
+      "scopes": [
+        "personal",
+        "team"
+      ],
+      "commands": [
         {
-            "botId": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
-            "scopes": [
-                "personal",
-                "team"
-            ]
+          "id": "getRandomText",
+          "description": "Gets some random text and images that you can insert in messages for fun.",
+          "title": "Get some random text for fun",
+          "initialRun": true,
+          "parameters": [
+            {
+              "name": "cardTitle",
+              "description": "Card title to use",
+              "title": "Card title"
+            }
+          ]
         }
-    ],
-    "permissions": [
-        "identity",
-        "messageTeamMembers"
-    ],
-    "validDomains": []
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
 }
