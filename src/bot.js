@@ -3,6 +3,7 @@
 module.exports.setup = function(app) {
     var builder = require('botbuilder');
     var teams = require('botbuilder-teams');
+    var excuse = require('huh');
     var config = require('config');
     var botConfig = config.get('bot');
     
@@ -19,7 +20,8 @@ module.exports.setup = function(app) {
     var bot = new builder.UniversalBot(connector, function(session) {
         // Message might contain @mentions which we would like to strip off in the response
         var text = teams.TeamsMessage.getTextWithoutMentions(session.message);
-        session.send('You said: %s', text);
+        // session.send('You said: %s', text);
+        session.send(`Thank you for sending ${session.message}. Your message is very important to us. The problem was caused by ${excuse.get()}`);
     });
 
     // Setup an endpoint on the router for the bot to listen.
