@@ -107,9 +107,69 @@ module.exports.setup = function(app) {
         confirmPrompt: "Are you sure?"
     });
 
+    // Subscribe dialog
+    var savedAddress;
+    bot.dialog('SubscribeDialog',
+        (session) => {
+            savedAddress = session.message.address;
+            // (Save this information somewhere that it can be accessed later, such as in a database, or session.userData)
+            session.userData.savedAddress = savedAddress;
+            session.send("Subscribed to Line 1 Filler stopped events");
+            session.endDialog();
+        }
+    ).triggerAction({
+        matches: 'Subscribe'
+    })
+
+    // Line 1 Filler stopped dialog
+    bot.dialog('line1FillerStoppedDialog', function (session, args, next) {
+        session.endDialog();
+        session.send("Line 1 Filler stopped!");
+    });
+
+    // send simple proactive notification
+    function sendProactiveMessage(address) {
+        var msg = new builder.Message().address(address);
+        msg.text('Line 1 Filler stopped!');
+        msg.textLocale('en-US');
+        bot.send(msg);
+    }
+
+    // initiate a proactive dialog  
+    function startProactiveDialog(address) {
+
+        // new conversation address, copy without conversationId
+        var newConversationAddress = Object.assign({}, address);
+        delete newConversationAddress.conversation;
+
+        // start survey dialog
+        bot.beginDialog(newConversationAddress, 'line1FillerStoppedDialog', null, function (err) {
+            if (err) {
+                // error ocurred while starting new conversation. Channel not supported?
+                bot.send(new builder.Message()
+                    .text('This channel does not support this operation: ' + err.message)
+                    .address(address));
+            }
+        });
+    }
+
     // Setup an endpoint on the router for the bot to listen.
     // NOTE: This endpoint cannot be changed and must be api/messages
     app.post('/api/messages', connector.listen());
+
+    // Do GET this endpoint to send simple proactive notification
+    app.get('/api/send-proactive-message', (req, res, next) => {
+        sendProactiveMessage(savedAddress);
+        res.send('triggered');
+        next();
+    });
+
+    // Do GET this endpoint to initiate a proactive dialog
+    app.get('/api/start-proactive-dialog', (req, res, next) => {
+        startProactiveDialog(savedAddress);
+        res.send('triggered');
+        next();
+    });
 
     // Export the connector for any downstream integration - e.g. registering a messaging extension
     module.exports.connector = connector;
