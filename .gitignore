@@ -60,3 +60,6 @@ typings/
 # Distributables
 dist/
 manifest/
+
+# VSCode
+.vscode/

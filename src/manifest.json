@@ -23,25 +23,6 @@
     "color": "color.png"
   },
   "accentColor": "#FFFFFF",
-  "staticTabs": [
-    {
-      "entityId": "au.com.nukon.tillitbot.hellotab",
-      "name": "Hello Tab",
-      "contentUrl": "https://fidz.azurewebsites.net/hello",
-      "scopes": [
-        "personal"
-      ]
-    }
-  ],
-  "configurableTabs": [
-    {
-      "configurationUrl": "https://fidz.azurewebsites.net/configure",
-      "canUpdateConfiguration": true,
-      "scopes": [
-        "team"
-      ]
-    }
-  ],
   "bots": [
     {
       "botId": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
@@ -50,30 +31,6 @@
       "scopes": [
         "team",
         "personal"
-      ]
-    }
-  ],
-  "composeExtensions": [
-    {
-      "botId": "e3a2439a-cdc7-4be0-a8a6-5f83fe38b233",
-      "scopes": [
-        "personal",
-        "team"
-      ],
-      "commands": [
-        {
-          "id": "getRandomText",
-          "description": "Gets some random text and images that you can insert in messages for fun.",
-          "title": "Get some random text for fun",
-          "initialRun": true,
-          "parameters": [
-            {
-              "name": "cardTitle",
-              "description": "Card title to use",
-              "title": "Card title"
-            }
-          ]
-        }
       ]
     }
   ],
