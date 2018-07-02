@@ -50,6 +50,70 @@ module.exports.setup = function(app) {
     ).triggerAction({
         matches: 'Greeting'
     })
+    
+    // Creator dialog
+    bot.dialog('CreatorDialog',
+        (session) => {
+            session.send("My creator is Kim Fiddaman. Rafael doesn't have all the good ideas.");
+            session.endDialog();
+        }
+    ).triggerAction({
+        matches: 'Creator'
+    })
+
+    // Assign downtime reason dialog
+    bot.dialog('AssignDowntimeReason', [
+        function (session) {
+            var downtimeReason = session.dialogData.downtimeReason = {
+                assetName: null ? classification: null ? reason : null,
+            };
+
+            // Prompt for location
+            builder.Prompts.text(session, 'Ok, assigning a downtime reason. Which asset was the cause?');
+        },
+        function (session, results) {
+            var downtimeReason = session.dialogData.downtimeReason;
+            if (results.response) {
+                downtimeReason.assetName = teams.TeamsMessage.getTextWithoutMentions(session.message);
+            }
+
+            // Prompt for the classification
+            builder.Prompts.choice(session, "How would you classify the downtime?", ["Operational","Mechanical","Electrical"]);
+        },
+        function (session, results) {
+            var downtimeReason = session.dialogData.downtimeReason;
+            if (results.response) {
+                downtimeReason.classification = teams.TeamsMessage.getTextWithoutMentions(session.message);
+            }
+
+            // Prompt for the reason
+            builder.Prompts.text(session, 'What was the reason?');
+            // builder.Prompts.choice(session, "What was the reason?", ["Raw material shortage",
+            //                                                          "Incorrect machine setup",
+            //                                                          "Broken glass",
+            //                                                          "Conveyor fault",
+            //                                                          "Changeover",
+            //                                                          "Over temp fault"], { listStyle: builder.ListStyle.list });
+        },
+        function (session, results) {
+            var downtimeReason = session.dialogData.downtimeReason;
+            if (results.response) {
+                downtimeReason.reason = teams.TeamsMessage.getTextWithoutMentions(session.message);
+            }
+
+            // TODO: Call Camunda BPMN here
+
+            // Send confirmation to user
+            session.endDialog('Downtime reason successfully assigned.<br/>Asset name: %s<br/>Classification: %s<br/>Reason: %s',
+            downtimeReason.assetName, downtimeReason.classification, downtimeReason.reason);
+        }
+    ]).triggerAction({ 
+        matches: 'DowntimeEvent.AssignReason',
+        confirmPrompt: "This will cancel the downtime reason assignment you started. Are you sure?" 
+    }).cancelAction('cancelAssignDowntimeReason', "Downtime reason assignment cancelled.", {
+        matches: /^(cancel|nevermind)/i,
+        confirmPrompt: "Are you sure?"
+    });
 
     // Create Maintenance Task dialog
     bot.dialog('CreateMaintenanceTask', [
@@ -77,7 +141,7 @@ module.exports.setup = function(app) {
             }
 
             // Prompt for the task priority
-            builder.Prompts.choice(session, "What is the task priority?", ["high","medium","low"]);
+            builder.Prompts.choice(session, "What is the task priority?", ["High","Medium","Low"]);
         },
         function (session, results) {
             var maintenanceTask = session.dialogData.maintenanceTask;
@@ -135,7 +199,8 @@ module.exports.setup = function(app) {
         bot.send(msg);
     }
 
-    // initiate a proactive dialog  
+    // initiate a proactive dialog
+    // NOTE: DOESN'T WORK FOR MS TEAMS WHICH IS REEEEEAAAALLY ANNOYING!!!
     function startProactiveDialog(address) {
 
         // new conversation address, copy without conversationId
@@ -165,6 +230,7 @@ module.exports.setup = function(app) {
     });
 
     // Do GET this endpoint to initiate a proactive dialog
+    // NOTE: DOESN'T WORK FOR MS TEAMS WHICH IS REEEEEAAAALLY ANNOYING!!!
     app.get('/api/start-proactive-dialog', (req, res, next) => {
         startProactiveDialog(savedAddress);
         res.send('triggered');
